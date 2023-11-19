@@ -3,6 +3,7 @@
     <string name="settingsString">Settings</string>
     <string name="darkMode">Dark Mode</string>
     <string name="selectCategories">Select Your Categories</string>
+
     <string name="world">World</string>
     <string name="business">Business</string>
     <string name="technology">Technology</string>

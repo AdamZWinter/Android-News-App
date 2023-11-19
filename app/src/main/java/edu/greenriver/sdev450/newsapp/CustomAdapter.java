@@ -57,37 +57,31 @@ public class CustomAdapter extends BaseAdapter {
         TextView textView = convertView.findViewById(R.id.textViewCategoryListView);
         textView.setText(categories.get(position));
 
+        SharedPreferences sharedPreferences = myContext.getSharedPreferences(
+                MainActivity.SHARED_PREF_ANDROID,
+                Context.MODE_PRIVATE);
+
         CheckBox checkBox = convertView.findViewById(R.id.checkBoxCategoryListView);
+        checkBox.setChecked(
+                sharedPreferences.getBoolean(categories.get(position), true)
+        );
         checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                System.out.println("Checkbox clicked");
-                SharedPreferences sharedPreferences = myContext.getSharedPreferences(
-                        MainActivity.SHARED_PREF_ANDROID,
-                        myContext.MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putBoolean("nightMode", isChecked);
 
+                SharedPreferences.Editor editor = sharedPreferences.edit();
                 if (isChecked) {
-                    UiModeManager uiModeManager = (UiModeManager) myContext
-                            .getSystemService(myContext.UI_MODE_SERVICE);
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                        uiModeManager.setNightMode(UiModeManager.MODE_NIGHT_YES);
-                    }else {
-                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                    }
+                    editor.putBoolean(categories.get(position), true);
                 } else {
-                    UiModeManager uiModeManager = (UiModeManager) myContext
-                            .getSystemService(myContext.UI_MODE_SERVICE);
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                        uiModeManager.setNightMode(UiModeManager.MODE_NIGHT_NO);
-                    }else {
-                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                    }
+                    editor.putBoolean(categories.get(position), false);
                 }
+                editor.apply();
+                //System.out.println("Category checkbox clicked");
+                System.out.println(
+                        sharedPreferences.getBoolean(categories.get(position), true)
+                );
             }
         });
-
 
         return convertView;
     }
