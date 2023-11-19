@@ -1,8 +1,13 @@
 package edu.greenriver.sdev450.newsapp;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.app.ActionBar;
 import android.app.UiModeManager;
 import android.content.Context;
 import android.content.Intent;
@@ -11,6 +16,11 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
+import android.widget.Toast;
+import android.widget.Toolbar;
+
+import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +30,12 @@ public class MainActivity extends AppCompatActivity {
     //public static String[] CATEGORIES = {"World", "Business", "Technology", "Sport", "Entertainment"};
     private ArrayList<String> categories;
     public static final String SHARED_PREF_ANDROID = "ANDROIDCLASS";
+
+    DrawerLayout drawerLayout;
+    NavigationView navigationView;
+    Toolbar toolbar;
+    ActionBarDrawerToggle actionBarDrawerToggle;
+    TextView textViewHello;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +52,30 @@ public class MainActivity extends AppCompatActivity {
         categories.add(getString(R.string.sport));
         categories.add(getString(R.string.entertainment));
 
+        drawerLayout = findViewById(R.id.drawerLayout);
+        navigationView = findViewById(R.id.navigationView);
+
+        textViewHello = findViewById(R.id.textViewHello);
+
+
+        actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.nav_open, R.string.nav_close);
+        actionBarDrawerToggle.syncState();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);   //makes the back button appear
+
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                int buttonID = item.getItemId();
+                if(buttonID == R.id.home){
+                    Toast.makeText(getApplicationContext(), "Home selected", Toast.LENGTH_LONG).show();
+                }else if(buttonID == R.id.slidingSettings){
+                    Toast.makeText(getApplicationContext(), "Settings selected", Toast.LENGTH_LONG).show();
+                }
+                drawerLayout.closeDrawer(GravityCompat.START);
+                return true;
+            }
+        });
+
     }
 
     public boolean onCreateOptionsMenu(Menu menu){
@@ -48,16 +88,13 @@ public class MainActivity extends AppCompatActivity {
         if(itemID == R.id.settings){
             //Toast.makeText(getApplicationContext(), "Settings button is clicked", Toast.LENGTH_LONG).show();
             Intent intent = new Intent(this, SettingsActivity.class);
-//            Bundle bundle = intent.getExtras();
-//            if (bundle != null) {
-//                bundle.putStringArrayList("categories", this.categories);
-//            } else {
-//                //something else?
-//            }
             intent.putExtra("categories", this.categories);
             startActivity(intent);
         }
-        return true;
+        if(actionBarDrawerToggle.onOptionsItemSelected(item)){
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     public List<String> getCategories(){

@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">NewsApp</string>
     <string name="settingsString">Settings</string>
+    <string name="home">Home</string>
     <string name="darkMode">Dark Mode</string>
     <string name="selectCategories">Select Your Categories</string>
 
@@ -9,5 +10,8 @@
     <string name="technology">Technology</string>
     <string name="sport">Sport</string>
     <string name="entertainment">Entertainment</string>
+
+    <string name="nav_open">Open</string>
+    <string name="nav_close">Close</string>
 
 </resources>
