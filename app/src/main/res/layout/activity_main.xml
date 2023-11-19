@@ -31,6 +31,7 @@
         android:id="@+id/navigationView"
         android:fitsSystemWindows="true"
         android:layout_gravity="start"
+        app:headerLayout="@layout/header_menu"
         >
 
     </com.google.android.material.navigation.NavigationView>
