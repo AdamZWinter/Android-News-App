@@ -26,8 +26,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-
-    //public static String[] CATEGORIES = {"World", "Business", "Technology", "Sport", "Entertainment"};
     private ArrayList<String> categories;
     public static final String SHARED_PREF_ANDROID = "ANDROIDCLASS";
 
@@ -61,6 +59,8 @@ public class MainActivity extends AppCompatActivity {
         actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.nav_open, R.string.nav_close);
         actionBarDrawerToggle.syncState();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);   //makes the back button appear
+
+
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
