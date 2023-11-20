@@ -7,6 +7,9 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.constraintlayout.widget.Group;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.app.ActionBar;
 import android.app.UiModeManager;
@@ -71,9 +74,6 @@ public class MainActivity extends AppCompatActivity {
             slidingMenu.add(Menu.FIRST, itemId, i, categories.get(i));
         }
 
-
-
-
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -92,6 +92,8 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
+
+        replaceFragment(new MainNewsFragment());
 
     }
 
@@ -135,6 +137,13 @@ public class MainActivity extends AppCompatActivity {
         } else {
             //nothing
         }
+    }
+
+    public void replaceFragment(Fragment fragment){
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.frameLayout, fragment);
+        fragmentTransaction.commit();
     }
 
 }
