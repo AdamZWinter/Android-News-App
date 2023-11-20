@@ -1,8 +1,9 @@
 package edu.greenriver.sdev450.newsapp;
 
+import java.io.Serializable;
 import java.util.Random;
 
-public class NewsStory {
+public class NewsStory implements Serializable {
     private String headline;
     private String fullText;
     private String author;

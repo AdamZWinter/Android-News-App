@@ -79,7 +79,9 @@ public class MainActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 int buttonID = item.getItemId();
                 if(buttonID == R.id.home){
-                    Toast.makeText(getApplicationContext(), "You are already home.", Toast.LENGTH_LONG).show();
+                    //Toast.makeText(getApplicationContext(), "You are already home.", Toast.LENGTH_LONG).show();
+                    MainNewsFragment fragment = MainNewsFragment.newInstance(categories, 3);
+                    replaceFragment(fragment);
                 }else if(buttonID == R.id.slidingSettings){
                     Toast.makeText(getApplicationContext(), "Settings selected", Toast.LENGTH_LONG).show();
                     Intent intent = new Intent(mainContext, SettingsActivity.class);
@@ -87,13 +89,20 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(intent);
                 }else if( buttonID >= 42 && buttonID < categories.size() + 42){
                     //Toast.makeText(getApplicationContext(), "Custom item: " + buttonID, Toast.LENGTH_LONG).show();
+                    int position = buttonID - 42;
+
+                    ArrayList<String> singleCategoryList = new ArrayList<>();
+                    singleCategoryList.add(categories.get(position));
+                    MainNewsFragment fragment = MainNewsFragment.newInstance(singleCategoryList, 10);
+                    replaceFragment(fragment);
                 }
                 drawerLayout.closeDrawer(GravityCompat.START);
                 return true;
             }
         });
 
-        replaceFragment(new MainNewsFragment());
+        MainNewsFragment fragment = MainNewsFragment.newInstance(categories, 3);
+        replaceFragment(fragment);
 
     }
 

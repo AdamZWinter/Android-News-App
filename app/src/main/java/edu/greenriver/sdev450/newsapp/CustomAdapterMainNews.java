@@ -48,7 +48,7 @@ public class CustomAdapterMainNews extends BaseAdapter {
         TextView textView = convertView.findViewById(R.id.textViewNewsListHeadline);
 
         imageView.setImageResource(R.drawable.baseline_airplanemode_active_24);
-        textView.setText("Test text headline");
+        textView.setText(newsStories.get(position).getHeadline());
 
         return convertView;
     }
