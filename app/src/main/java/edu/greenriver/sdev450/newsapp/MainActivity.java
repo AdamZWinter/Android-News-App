@@ -58,16 +58,18 @@ public class MainActivity extends AppCompatActivity {
         drawerLayout = findViewById(R.id.drawerLayout);
         navigationView = findViewById(R.id.navigationView);
 
-        textViewHello = findViewById(R.id.textViewHello);
-
-
         actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.nav_open, R.string.nav_close);
         actionBarDrawerToggle.syncState();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);   //makes the back button appear
 
 
         Menu slidingMenu = navigationView.getMenu();
-        slidingMenu.add(Menu.FIRST, 1, Menu.FIRST, "Test Item");
+
+        //What address space should be used when manually assigning an item id?
+        for (int i = 0; i < categories.size(); i++) {
+            int itemId = 42 + i;
+            slidingMenu.add(Menu.FIRST, itemId, i, categories.get(i));
+        }
 
 
 
@@ -83,6 +85,8 @@ public class MainActivity extends AppCompatActivity {
                     Intent intent = new Intent(mainContext, SettingsActivity.class);
                     intent.putExtra("categories", categories);
                     startActivity(intent);
+                }else if( buttonID >= 42 && buttonID < categories.size() + 42){
+                    //Toast.makeText(getApplicationContext(), "Custom item: " + buttonID, Toast.LENGTH_LONG).show();
                 }
                 drawerLayout.closeDrawer(GravityCompat.START);
                 return true;
