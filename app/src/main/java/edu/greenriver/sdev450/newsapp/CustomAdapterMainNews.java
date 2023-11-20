@@ -47,7 +47,7 @@ public class CustomAdapterMainNews extends BaseAdapter {
         ImageView imageView = convertView.findViewById(R.id.imageViewNewsItem);
         TextView textView = convertView.findViewById(R.id.textViewNewsListHeadline);
 
-        imageView.setImageResource(R.drawable.baseline_airplanemode_active_24);
+        imageView.setImageResource(newsStories.get(position).getImageId());
         textView.setText(newsStories.get(position).getHeadline());
 
         return convertView;
