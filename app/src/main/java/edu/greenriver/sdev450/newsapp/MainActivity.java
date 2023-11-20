@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.constraintlayout.widget.Group;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
@@ -15,6 +16,7 @@ import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,6 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+    Context mainContext;
     private ArrayList<String> categories;
     public static final String SHARED_PREF_ANDROID = "ANDROIDCLASS";
 
@@ -35,11 +38,13 @@ public class MainActivity extends AppCompatActivity {
     ActionBarDrawerToggle actionBarDrawerToggle;
     TextView textViewHello;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        this.mainContext = this;
 
         loadPreferences();
 
@@ -61,15 +66,23 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);   //makes the back button appear
 
 
+        Menu slidingMenu = navigationView.getMenu();
+        slidingMenu.add(Menu.FIRST, 1, Menu.FIRST, "Test Item");
+
+
+
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 int buttonID = item.getItemId();
                 if(buttonID == R.id.home){
-                    Toast.makeText(getApplicationContext(), "Home selected", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "You are already home.", Toast.LENGTH_LONG).show();
                 }else if(buttonID == R.id.slidingSettings){
                     Toast.makeText(getApplicationContext(), "Settings selected", Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(mainContext, SettingsActivity.class);
+                    intent.putExtra("categories", categories);
+                    startActivity(intent);
                 }
                 drawerLayout.closeDrawer(GravityCompat.START);
                 return true;
