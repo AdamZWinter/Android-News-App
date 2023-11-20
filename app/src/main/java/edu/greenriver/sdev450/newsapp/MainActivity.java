@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
                 int buttonID = item.getItemId();
                 if(buttonID == R.id.home){
                     //Toast.makeText(getApplicationContext(), "You are already home.", Toast.LENGTH_LONG).show();
-                    MainNewsFragment fragment = MainNewsFragment.newInstance(categories, 3);
+                    MainNewsFragment fragment = MainNewsFragment.newInstance(preferredCategories, 3);
                     replaceFragment(fragment);
                 }else if(buttonID == R.id.slidingSettings){
                     Toast.makeText(getApplicationContext(), "Settings selected", Toast.LENGTH_LONG).show();
@@ -102,9 +102,11 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
-        super.onResume();
+        //System.out.println("****************On Resume*************");
+        loadPreferences();
         MainNewsFragment fragment = MainNewsFragment.newInstance(preferredCategories, 3);
         replaceFragment(fragment);
+        super.onResume();
     }
 
     public boolean onCreateOptionsMenu(Menu menu){
@@ -124,10 +126,6 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    public List<String> getCategories(){
-        return categories;
     }
 
     private void loadPreferences(){
