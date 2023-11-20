@@ -9,6 +9,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ListView;
@@ -21,6 +22,7 @@ public class SettingsActivity extends AppCompatActivity {
     private ArrayList<String> categories;
     private ListView listView;
     private ToggleButton nightMode;
+    private Button saveButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +31,7 @@ public class SettingsActivity extends AppCompatActivity {
         categories = getIntent().getExtras().getStringArrayList("categories");
         listView = findViewById(R.id.settingsCategoryListView);
         nightMode = findViewById(R.id.toggleButtonNightMode);
+        saveButton = findViewById(R.id.buttonSettingsSave);
 
         CustomAdapter customAdapter = new CustomAdapter(this, categories);
         listView.setAdapter(customAdapter);
@@ -72,5 +75,11 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
+
+    }
+
+    public void saveClose(View view){
+        System.out.println("Closing settings");
+        finish();
     }
 }

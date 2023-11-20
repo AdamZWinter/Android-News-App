@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatDelegate;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CustomAdapter extends BaseAdapter {
@@ -65,10 +66,11 @@ public class CustomAdapter extends BaseAdapter {
         checkBox.setChecked(
                 sharedPreferences.getBoolean(categories.get(position), true)
         );
-        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
+        checkBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean isChecked = checkBox.isChecked();
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 if (isChecked) {
                     editor.putBoolean(categories.get(position), true);
@@ -76,10 +78,13 @@ public class CustomAdapter extends BaseAdapter {
                     editor.putBoolean(categories.get(position), false);
                 }
                 editor.apply();
-                //System.out.println("Category checkbox clicked");
-                System.out.println(
-                        sharedPreferences.getBoolean(categories.get(position), true)
-                );
+
+                ArrayList<Boolean> booleans = new ArrayList<>();
+                for (int i = 0; i < categories.size(); i++) {
+                    booleans.add(sharedPreferences.getBoolean(categories.get(i), false));
+                }
+                System.out.println(booleans);
+
             }
         });
 

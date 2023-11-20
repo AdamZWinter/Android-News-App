@@ -6,9 +6,13 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.PopupMenu;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -81,6 +85,29 @@ public class MainNewsFragment extends Fragment {
 
         CustomAdapterMainNews customAdapter = new CustomAdapterMainNews(this.getContext(), newsStoryArrayList);
         listView.setAdapter(customAdapter);
+
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                //Toast.makeText(getActivity().getApplicationContext(), "Long Click", Toast.LENGTH_LONG).show();
+                PopupMenu popupMenu = new PopupMenu(getActivity().getApplicationContext(), view);
+                popupMenu.getMenuInflater().inflate(R.menu.context_menu, popupMenu.getMenu());
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        int itemID = item.getItemId();
+                        if(itemID == R.id.bookmark){
+                            Toast.makeText(getActivity().getApplicationContext(), "Bookmark selected", Toast.LENGTH_LONG).show();
+                        }else if(itemID == R.id.share){
+                            Toast.makeText(getActivity().getApplicationContext(), "Share selected", Toast.LENGTH_LONG).show();
+                        }
+                        return true;
+                    }
+                });
+                popupMenu.show();
+                return false;
+            }
+        });
 
         return view;
     }

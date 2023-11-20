@@ -33,6 +33,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
     Context mainContext;
     private ArrayList<String> categories;
+    private ArrayList<String> preferredCategories;
     public static final String SHARED_PREF_ANDROID = "ANDROIDCLASS";
 
     DrawerLayout drawerLayout;
@@ -50,13 +51,6 @@ public class MainActivity extends AppCompatActivity {
         this.mainContext = this;
 
         loadPreferences();
-
-        categories = new ArrayList<>(10);
-        categories.add(getString(R.string.world));
-        categories.add(getString(R.string.business));
-        categories.add(getString(R.string.technology));
-        categories.add(getString(R.string.sport));
-        categories.add(getString(R.string.entertainment));
 
         drawerLayout = findViewById(R.id.drawerLayout);
         navigationView = findViewById(R.id.navigationView);
@@ -101,9 +95,16 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        MainNewsFragment fragment = MainNewsFragment.newInstance(categories, 3);
+        MainNewsFragment fragment = MainNewsFragment.newInstance(preferredCategories, 3);
         replaceFragment(fragment);
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MainNewsFragment fragment = MainNewsFragment.newInstance(preferredCategories, 3);
+        replaceFragment(fragment);
     }
 
     public boolean onCreateOptionsMenu(Menu menu){
@@ -130,6 +131,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadPreferences(){
+        System.out.println("Load Preferences is running");
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREF_ANDROID, MODE_PRIVATE);
         Boolean nightMode = sharedPreferences.getBoolean("nightMode", false);
 
@@ -146,6 +148,23 @@ public class MainActivity extends AppCompatActivity {
         } else {
             //nothing
         }
+
+        categories = new ArrayList<>(10);
+        categories.add(getString(R.string.world));
+        categories.add(getString(R.string.business));
+        categories.add(getString(R.string.technology));
+        categories.add(getString(R.string.sport));
+        categories.add(getString(R.string.entertainment));
+
+        preferredCategories = new ArrayList<>();
+        for (int i = 0; i < categories.size(); i++) {
+            if(sharedPreferences.getBoolean(categories.get(i), false)){
+                preferredCategories.add(categories.get(i));
+            }
+        }
+
+//        preferredCategories.add(getString(R.string.world));
+//        preferredCategories.add(getString(R.string.business));
     }
 
     public void replaceFragment(Fragment fragment){
